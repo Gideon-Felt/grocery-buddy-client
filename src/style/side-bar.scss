@@ -13,6 +13,37 @@
   overflow-x: hidden; /* Disable horizontal scroll */
   padding-top: 60px; /* Place content 60px from the top */
   transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
+  
+  .openSecond {
+    height: 20px;
+    position: absolute;
+    top: 0;
+    left: 15px;
+    font-size: 20px;
+    margin-right: 0px;
+
+    background-color: $pastel;
+    color: white;
+    &:hover {
+      background-color: maroon;
+    }
+  }
+
+  h3 {
+    color: $pastel;
+    font-size: xx-large;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    margin-bottom: 0px;
+  }
+
+  .store-form-wrapper {
+    display: flex;
+    flex-direction: column;
+    
+   
+  }
+
+
 
   a {
     padding: 8px 8px 8px 32px;
@@ -52,8 +83,8 @@
 
   .closebtn {
     position: absolute;
-    top: 0;
-    left: 25px;
+    top: -12px;
+    left: 120px;
     font-size: 36px;
     margin-right: 50px;
   }
