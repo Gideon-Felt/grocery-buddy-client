@@ -8,7 +8,9 @@ export default class SearchForm extends Component {
       searchStore: "",
       searchProduct: "",
       searchResults: [],
-      setVisible: true
+      setVisible: true,
+      storeExists: false,
+      productExists: false
     };
   }
   handleSubmit = (event) => {
@@ -50,6 +52,9 @@ export default class SearchForm extends Component {
           this.checkStore(store);
         });
       })
+      .then((stuff) => {
+        this.checkStoreExists();
+      })
       .then((data) => {
         console.log("resetting state values");
         this.setState({
@@ -59,7 +64,7 @@ export default class SearchForm extends Component {
           setVisible: false
         });
         console.log(
-          `searchStore: ${this.state.searchStore} searchProduct: ${this.state.searchProduct} searchYearMin: ${this.state.searchYearMin} searchYearMax: ${this.state.searchYearMax}`
+          `searchStore: ${this.state.searchStore} searchProduct: ${this.state.searchProduct}`
         );
       })
       .catch((err) => [
@@ -71,13 +76,15 @@ export default class SearchForm extends Component {
       [event.target.name]: event.target.value
     });
   };
+
   checkStore = (store) => {
     if (
       this.state.searchStore &&
       store.store_name.toLowerCase() === this.state.searchStore.toLowerCase()
     ) {
       // console.log(`${store.store} = ${this.state.searchStore}, checking product`)
-      this.checkProduct(store);
+      this.setState({ storeExists: true });
+      this.getProducts(store);
     } else if (
       this.state.searchStore &&
       store.store.toLowerCase() !== this.state.searchStore.toLowerCase()
@@ -88,17 +95,36 @@ export default class SearchForm extends Component {
     // if there is not store and product listed then just check by year, miles, and price
     else {
       // console.log("no store entered, checking year")
-      this.checkProduct(store);
+      this.getProducts(store);
     }
   };
-  checkProduct = (store) => {
+
+  getProducts = (store) => {
+    axios
+      .get("https://ksl-scraper-api-main.herokuapp.com/stores")
+      .then((response) => {
+        response.data
+          .forEach((product) => {
+            if (store.id === product.store_id) {
+              this.checkProduct(product);
+            }
+          })
+          .then((data) => {
+            this.checkProductExists(store);
+          });
+      });
+  };
+
+  checkProduct = (product) => {
     if (
       this.state.searchProduct &&
-      store.product.toLowerCase() === this.state.searchProduct.toLowerCase()
+      product.product_name.toLowerCase() ===
+        this.state.searchProduct.toLowerCase()
     ) {
       // console.log("product matches, checking product")
       this.setState({
-        searchResults: [store].concat(this.state.searchResults)
+        searchResults: [store].concat(this.state.searchResults),
+        productExists: true
       });
     } else if (
       this.state.searchProduct &&
@@ -112,6 +138,28 @@ export default class SearchForm extends Component {
       // console.log("no product entered, checking year")
       this.setState({
         searchResults: [store].concat(this.state.searchResults)
+      });
+    }
+  };
+
+  checkStoreExists = () => {
+    if (!this.state.storeExists) {
+      axios.post("localhost:5000/add-store", {
+        store_name: this.state.searchStore,
+        address: "",
+        city: "",
+        state: "",
+        zip_code: ""
+      });
+    }
+  };
+
+  checkProductExists = (store) => {
+    if (!this.state.productExists) {
+      axios.post("localhost:8000/add-product", {
+        store_id: store.id,
+        product_name: this.state.searchProduct,
+        price: this.state.setPrice
       });
     }
   };
