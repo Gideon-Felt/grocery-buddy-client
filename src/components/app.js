@@ -1,16 +1,65 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
+import { FortAwesomeIcon, FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from "axios"
 
-export default class App extends Component {
-  render() {
-    return (
-      <div className="app">
-        <h1>DevCamp React Starter</h1>
-        <h2>React + Redux</h2>
+import Icons from "./helpers/icons"
+Icons()
 
-        <div style={{ color: "red" }}>
-          Warning: this is the experimental template, pardon the bugs
+
+function App() {
+  const [ formSideBarStyles, setFormSideBarStyles] = useState({width: "0", marginLeft: "0"})
+  const [SearchSpaceStyle, setSearchSpaceStyle] = useState({width: "100vw", marginLeft: "0"})
+  const [loggedInStatus, setLoggedInStatus] = useState("NOT_LOGGED_IN")
+  
+
+  function openNav() {
+    setFormSideBarStyles({width: "100vw", marginRight: "100vw"})
+    setSearchSpaceStyle({width: "0vw", marginLeft: "0vw"})    
+  }
+
+  function closeNav() {
+    setFormSideBarStyles({width: "0", margimarginRightnLeft: "0"})
+    setSearchSpaceStyle({width: "100vw", marginLeft: "0"})
+  }
+
+  // useEffect(() => {
+  //   checkLoginStatus()
+  // }, [])
+
+
+  return (
+    <div className="app">
+      <div className="nav-bar-wrapper">
+        <div className="Form">
+        <button className="openbtn nav-link-btn" onClick={() => openNav()}><FontAwesomeIcon icon="bars" className="side-bar-bars"/><span className="side-bar-button-text">Search</span></button>
+        </div>
+
+        <div className="logo">
+          Grocery Buddy
+        </div>
+
+        <div className="login">
+          {loggedInStatus}
         </div>
       </div>
-    );
-  }
+
+
+      <div className="app-body">
+
+        <div id="mySidebar" className="sidebar form" style={formSideBarStyles}>
+          <a href="#" className="closebtn" onClick={() => closeNav()}>&times;</a>          
+          <a href="#">Services</a>
+          <input className="form-input" type="text" placeholder="FORM INPUT"/>
+        </div>
+
+        <div className="search" style={SearchSpaceStyle}>
+          HELLO FROM SEARCH PAGE
+          <input className="serachBar" type="text" placeholder="Search"/>
+        </div>
+
+      </div>
+  </div>
+  )
 }
+
+export default App

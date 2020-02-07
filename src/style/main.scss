@@ -1,17 +1,10 @@
-html {
-    font-size: 62.5%; // 1rem is 10px
-}
-
-*,
-*::after,
-*::before {
-    margin: 0;
-    padding: 0;
-    box-sizing: inherit;
-    font-family: 'montserrat';
-}
+@import "./variables.scss";
+@import "./mixins.scss";
+@import "./side-bar.scss";
+@import "./nav-bar.scss";
 
 body {
+    margin: 0px;
     overflow-x: hidden;
     font-weight: normal;
 
@@ -22,7 +15,46 @@ body {
 }
 
 .app {
-    margin-top: 2rem;
-    display: grid;
-    justify-items: center;
+    background-color: $offwhite;
+    
+    .app-body {
+        height: 95vh;
+        .search {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            .serachBar {
+                width: 30vw;
+                height: 5vh;
+                border-bottom: 3px solid $pastel;
+                box-shadow: 0 8px 6px -6px black;
+                background-color: white;
+                outline: none;
+                border: none;
+
+                &:focus {
+                    border-bottom: 3px solid $pastel;
+	                
+                }
+            }
+        }
+        
+        .form {
+            .form-input {
+                width: 30vw;
+                height: 5vh;
+                border-bottom: 3px solid $pastel;
+                box-shadow: 0 8px 6px -6px black;
+                background-color: white;
+                outline: none;
+                border: none;
+
+                &:focus {
+                    border-bottom: 3px solid $pastel;
+                }
+            } 
+        }
+    }
 }
