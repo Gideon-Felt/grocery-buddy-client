@@ -34,8 +34,8 @@ function App() {
         <button className="openbtn nav-link-btn" onClick={() => openNav()}><FontAwesomeIcon icon="bars" className="side-bar-bars"/><span className="side-bar-button-text">Search</span></button>
         </div>
 
-        <div className="logo">
-          Grocery Buddy
+        <div className="logo-wrapper">
+          <span className="logoOne">Grocery</span><span className="logoTwo">Buddy</span>
         </div>
 
         <div className="login">
